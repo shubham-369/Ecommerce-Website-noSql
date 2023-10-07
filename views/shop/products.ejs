@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../includes/links.ejs') %>
+    
+    <link rel="stylesheet" href="/css/product-details.css">
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <%- include('../includes/shop-header.ejs') %>
+    
+    <div class="container mt-3">
+      <% if(detail){ %>
+        <div class="row">
+          <div class="col-6">
+          <img src="<%= detail.imageurl %>" class="details-img" alt="product-image">
+          </div>
+          <div class="col-6">
+              <h3><%= detail.title %></h3>
+              <h6><%= detail.description %></h6>
+              <h1>$ <%= detail.price %></h1>
+              <div class="buttons">
+                  <a href="#" class="btn btn-secondary">Add to cart</a>
+                  <a href="#" class="btn btn-success">Buy now</a>
+              </div>
+          </div>
+      </div> 
+      <% } %>
+    </div>
+    
+    <%- include('../includes/footer.ejs') %>
+  </body>
+</html>

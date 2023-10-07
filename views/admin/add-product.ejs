@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../includes/links.ejs') %>
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <%- include('../includes/admin-header.ejs')%>
+    
+    <div class="container justify-content-center">
+      <form action="/admin/add-product" method="POST" id="form" class="mt-5">
+        <% if(IDdata){ %>
+          <input type="hidden" name="productID" id="id" value="<%= IDdata.id %>">
+          <%}%>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" value="<%= IDdata? IDdata.title: ''%>"/>
+          </div>   
+          <div class="form-group">
+            <label for="url">Image URL</label>
+            <input type="url" class="form-control" name="url" value="<%= IDdata? IDdata.imageurl: '' %>"/>
+          </div>   
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" step="any" class="form-control" name="price" value="<%= IDdata? IDdata.price: '' %>"/>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" rows="6" name="description"><%= IDdata? IDdata.description: '' %></textarea>
+          </div>
+            <button class="btn btn-success mt-3" type="submit">Add / Update product</button>
+      </form>
+  
+
+    </div>
+    <%- include('../includes/footer.ejs') %>
+</body>
+</html>

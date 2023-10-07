@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../includes/links.ejs')%>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/contact.css">
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <%- include('../includes/shop-header.ejs') %>
+    
+    <div class="container">
+        <form action="/shop/success" id="Form">
+            <h3>Book a call</h3>
+            <h6>Book a call slot and our representative will call you within 1hr of selected time</h6>
+            <label for="name">Name :</label>
+              <input type="text" id="name" required>
+              <h6>Incorrect Format!</h6>
+              
+            <label for="email">Email :</label>
+              <input type="email" id="email" required>
+              <h6>Incorrect Format!</h6>
+      
+            <button type="submit" id="button" name="submit">GET A CALL</button>
+            <div id="submitted">
+              <h5>Call slot booked</h5>
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+          </form>
+  
+
+    </div>
+    <%- include('../includes/footer.ejs') %>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../includes/links.ejs') %>
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <%- include('../includes/shop-header.ejs') %>
+    
+    <div class="container mt-3">
+
+     <div class="card-deck"> 
+      <% prods.forEach(element => { %>
+        <div class="card" style="max-width: 18rem; max-height: 30rem;">
+          <img class="card-img-top h-50" src="<%= element.imageurl %>" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= element.title %></h5>
+            <p class="card-text"><%= element.description %></p>
+            <h3 class="card-text font-weight-bold">$ <%= element.price %></h3>
+            <div class="d-flex justify-content-around">
+              <a href="products?detailID=<%= element.id %>" class="btn btn-primary">Details</a>
+              <button data-id="<%= element.id %>" class="cart btn btn-secondary">Add to cart</button>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+      </div>
+
+    </div>
+    <%- include('../includes/footer.ejs') %>
+ </body>
+</html>

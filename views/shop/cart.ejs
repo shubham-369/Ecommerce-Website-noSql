@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('../includes/links.ejs') %>
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <%- include('../includes/shop-header.ejs') %>
+    
+    
+    <div class="container mt-3">
+      
+      <% if(prods.length>0) { %>
+      <div class="d-block"> 
+       <% prods.forEach(element => { %>
+         <div class="card bg-light my-5" style="max-width: 100%; max-height: 15rem;">
+           <div class="card-body float-right">
+             <h5 class="card-title"><%= element.title %></h5>
+             <h3 class="card-text font-weight-bold">Quantity : <%= element.cartItems.quantity %></h3>
+             <div class="d-flex justify-content-end">
+               <button data-id="<%= element.id %>" class="deleteCartItem btn btn-danger">Delete</button>
+             </div>
+           </div>
+         </div>
+       <% }); %>
+       </div>
+       <div>
+          <button class="btn btn-block btn-success" id="order">Order now</button>
+       </div>
+       <% } else{ %>
+        <h1>No items in your Cart!</h1>
+        <% } %>
+    </div>
+
+    <%- include('../includes/footer.ejs') %>
+ </body>
+</html>

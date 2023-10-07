@@ -1,0 +1,11 @@
+.details-img{
+    max-width: 30rem;
+    object-fit: cover;
+}
+.buttons .btn:last-child{
+    background-color: rgb(0, 169, 0);
+    color: white;
+}
+.buttons .btn:last-child:hover{
+    background-color: green;
+}
