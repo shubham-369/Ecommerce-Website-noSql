@@ -1,30 +1,22 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../util/database');
+const { getDB } = require('../util/database');
 
-const Product = sequelize.define('products',{
-    id : {
-        type : Sequelize.INTEGER,
-        autoIncrement : true,
-        allowNull : false,
-        primaryKey : true        
-    },
-    title : {
-        type : Sequelize.STRING,
-        allowNull : false
-    },
-    imageurl : {
-        type : Sequelize.STRING,
-        allowNull : false
-    },
-    price : {
-        type : Sequelize.DOUBLE,
-        allowNull : false
-    },
-    description : {
-        type : Sequelize.STRING,
-        allowNull : false
+class Product{
+    constructor(title, imageurl, price, description){
+        this.title = title;
+        this.imageurl = imageurl;
+        this.price = price;
+        this.description = description;
     }
-    
-});
+    async save(){
+        try {
+            const db = getDB();
+            const result = await db.collection('products').insertOne(this);
+            const insertedDocument = await db.collection('products').findOne({ _id: result.insertedId });
+            return insertedDocument;
+        } catch (error) {
+            console.log('Error while saving product', error);
+        }
+    }
+};
 
-module.exports = Product;
+exports.Product = Product;

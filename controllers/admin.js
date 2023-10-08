@@ -1,4 +1,4 @@
-const product = require('../models/product');
+const { Product } = require('../models/product');
 
 exports.addUpdateProducts = (req, res, next) => {
     const { productID, title, url, price, description } = req.body;
@@ -19,14 +19,11 @@ exports.addUpdateProducts = (req, res, next) => {
             res.status(500).render('error', { pageTitle: 'Internal Server Error' });
         });
     }else {
-        req.user
-        .createProduct({
-            title: title,
-            imageurl: url,
-            price: price,
-            description: description
-        })
-        .then(() => {
+        const product = new Product(title, url, price, description);
+        product
+        .save()
+        .then((savedData) => {
+            console.log(savedData);
             res.status(201).json({message:'Data saved to database!'});
         })
         .catch(err => {
