@@ -10,7 +10,7 @@
     <div class="container justify-content-center">
       <form action="/admin/add-product" method="POST" id="form" class="mt-5">
         <% if(IDdata){ %>
-          <input type="hidden" name="productID" id="id" value="<%= IDdata.id %>">
+          <input type="hidden" name="productID" id="id" value="<%= IDdata._id %>">
           <%}%>
           <div class="form-group">
             <label for="title">Title</label>

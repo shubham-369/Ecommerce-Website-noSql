@@ -16,8 +16,8 @@
               <p class="card-text"><%= element.description %></p>
               <h3 class="card-text font-weight-bold">$ <%= element.price %></h3>
               <div class="d-flex justify-content-around">
-                <button data-id="<%= element.id %>" class="btn btn-danger delete">Delete</button>
-                <a href="add-product?updateID=<%= element.id %>" class="btn btn-primary">Update</a>
+                <button data-id="<%= element._id %>" class="btn btn-danger delete">Delete</button>
+                <a href="add-product?updateID=<%= element._id %>" class="btn btn-primary">Update</a>
               </div>
             </div>
           </div>

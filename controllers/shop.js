@@ -1,5 +1,4 @@
-const Product = require('../models/product');
-const product = require('../models/product');
+const { Product } = require('../models/product');
 
 exports.orderPage = (req, res, next) => {
     req.user
@@ -28,7 +27,7 @@ exports.contact = (req, res, next) => {
 }
 
 exports.showProducts = (req, res, next) => {
-    product.findAll()
+    Product.fetchAll()
     .then((data) => {
         res.render('shop/shop', {
             prods: data,
@@ -45,10 +44,10 @@ exports.showProducts = (req, res, next) => {
 exports.productDetails = (req, res, next) => {
     const id = req.query.detailID;
     if(id){
-        product.findAll({where:{id:id}})
+        Product.findById(id)
         .then((data) => {
             res.render('shop/products', {
-                detail: data[0],
+                detail: data,
                 pageTitle: 'Product detail',
                 path:'/products'
             });

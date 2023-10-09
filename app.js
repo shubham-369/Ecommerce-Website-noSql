@@ -8,7 +8,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
-// const shopRoutes = require('./routes/shop');
+const shopRoutes = require('./routes/shop');
 // const errorRoutes = require('./routes/error');
 
 
@@ -29,7 +29,7 @@ next();
 });
 
 app.use('/admin', adminRoutes);
-// app.use('/shop', shopRoutes);
+app.use('/shop', shopRoutes);
 // app.use('*', errorRoutes);
 
 

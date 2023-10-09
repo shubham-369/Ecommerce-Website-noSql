@@ -3,14 +3,9 @@ const { Product } = require('../models/product');
 exports.addUpdateProducts = (req, res, next) => {
     const { productID, title, url, price, description } = req.body;
     if (productID) {
-        product.findByPk(productID)
-        .then(product => {
-            product.title = title;
-            product.imageurl = url;
-            product.price = price;
-            product.description = description;
-            return product.save();
-        })
+        const product = new Product(title, url, price, description, productID);
+        product
+        .save()
         .then(() => {
             res.status(200).json({ message: 'Product updated successfully' });
         })
@@ -22,8 +17,7 @@ exports.addUpdateProducts = (req, res, next) => {
         const product = new Product(title, url, price, description);
         product
         .save()
-        .then((savedData) => {
-            console.log(savedData);
+        .then(() => {
             res.status(201).json({message:'Data saved to database!'});
         })
         .catch(err => {
@@ -37,11 +31,10 @@ exports.addUpdateProducts = (req, res, next) => {
 exports.fetchByID = (req, res, next) => {
     const id = req.query.updateID;
     if(id){
-        req.user
-        .getProducts({where:{id:id}})
+        Product.findById(id)
         .then(data => {
             res.render('admin/add-product', {
-                IDdata: data[0],
+                IDdata: data,
                 pageTitle: 'Add / Update product',
                 path: '/add-product'
             });
@@ -60,7 +53,7 @@ exports.fetchByID = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    req.user.getProducts()
+    Product.fetchAll()
         .then(data => {
             res.render('admin/admin-product', {
                 prods: data,
@@ -77,7 +70,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.deleteByID = (req, res, next) => {
     const id = req.query.deleteID;
-    product.destroy({ where: { id: id } })
+    Product.deleteByID(id)
         .then(() => {
             res.status(200).json({message:'Data deleted from database!'});
         })
