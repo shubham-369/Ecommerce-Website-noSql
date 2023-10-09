@@ -84,33 +84,42 @@ exports.getCart = (req, res, next) => {
 
 exports.addCart = (req, res, next) => {
     const {product} = req.body;
-    let fetchedCart;
-    let newQuantity = 1;
 
-    req.user
-    .getCart()
-    .then((cart) => {
-        fetchedCart = cart;
-        return cart.getProducts({where:{id:product}})
+    Product.findById(product)
+    .then((product) => {
+        return req.user.addToCart(product)
     })
-    .then((products) => {
-        let prod;
-        if(products.length > 0){
-            prod = products[0];
-        }
-        if(prod){
-            const oldQuantity = prod.cartItems.quantity;
-            newQuantity = oldQuantity + 1;
-            return prod
-        }
-        return Product.findByPk(product)
+    .then((result) => {
+        console.log(result);
     })
-    .then((fproduct) => {
-        res.status(200).json({message:'product added successfully to cart'});
-        return fetchedCart.addProduct(fproduct, { 
-            through: { quantity : newQuantity } 
-        });
-    })
+
+    // let fetchedCart;
+    // let newQuantity = 1;
+
+    // req.user
+    // .getCart()
+    // .then((cart) => {
+    //     fetchedCart = cart;
+    //     return cart.getProducts({where:{id:product}})
+    // })
+    // .then((products) => {
+    //     let prod;
+    //     if(products.length > 0){
+    //         prod = products[0];
+    //     }
+    //     if(prod){
+    //         const oldQuantity = prod.cartItems.quantity;
+    //         newQuantity = oldQuantity + 1;
+    //         return prod
+    //     }
+    //     return Product.findByPk(product)
+    // })
+    // .then((fproduct) => {
+    //     res.status(200).json({message:'product added successfully to cart'});
+    //     return fetchedCart.addProduct(fproduct, { 
+    //         through: { quantity : newQuantity } 
+    //     });
+    // })
     .catch((error) => {
         console.log('error while adding product to cart : ', error);
         res.status(500).json({ message: 'Internal server error'});   
