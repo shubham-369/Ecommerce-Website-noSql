@@ -9,6 +9,7 @@ app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const User = require('./models/user');
 // const errorRoutes = require('./routes/error');
 
 
@@ -19,13 +20,12 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-//     User.findByPk(1)
-//     .then(user => {
-//         req.user = user;
-//         next();
-//     })
-//     .catch((error) => console.log(error));
-next();
+    User.findById("6523f0cb58b95c911bb0abd7")
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch((error) => console.log(error));
 });
 
 app.use('/admin', adminRoutes);

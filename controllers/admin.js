@@ -3,7 +3,7 @@ const { Product } = require('../models/product');
 exports.addUpdateProducts = (req, res, next) => {
     const { productID, title, url, price, description } = req.body;
     if (productID) {
-        const product = new Product(title, url, price, description, productID);
+        const product = new Product(title, url, price, description, productID, req.user._id);
         product
         .save()
         .then(() => {
@@ -14,7 +14,7 @@ exports.addUpdateProducts = (req, res, next) => {
             res.status(500).render('error', { pageTitle: 'Internal Server Error' });
         });
     }else {
-        const product = new Product(title, url, price, description);
+        const product = new Product(title, url, price, description, null, req.user._id);
         product
         .save()
         .then(() => {

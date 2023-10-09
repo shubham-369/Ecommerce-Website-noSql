@@ -3,12 +3,13 @@ const { getDB } = require('../util/database');
 const { deleteByID } = require('../controllers/admin');
 
 class Product{
-    constructor(title, imageurl, price, description, id){
+    constructor(title, imageurl, price, description, id, userId){
         this.title = title;
         this.imageurl = imageurl;
         this.price = price;
         this.description = description;
         this._id = id? new mongodb.ObjectId(id) : null;
+        this.userId = userId;
     }
     async save(){
         const db = getDB();
