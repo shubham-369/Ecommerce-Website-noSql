@@ -2,7 +2,7 @@ const { Product } = require('../models/product');
 
 exports.orderPage = (req, res, next) => {
     req.user
-    .getOrders({include: ['products']})
+    .getOrders()
     .then(orders => {
         res.render('shop/orders', {
             products: orders,
@@ -105,30 +105,8 @@ exports.deleteCart = (req, res, next) => {
 }
 
 exports.postOrder = (req, res, next) => {
-    let fetchedCart;
     req.user
-    .getCart()
-    .then(cart => {
-        fetchedCart = cart;
-        return cart.getProducts();
-    })
-    .then(products => {
-        return req.user
-            .createOrder()
-            .then(order => {
-                order.addProducts(products.map(product => {
-                    product.orderItems = {quantity: product.cartItems.quantity};
-                    return product;
-                }))
-            })
-            .catch(error => {
-                console.log('error while posting order :', error);
-                res.status(500).json({ message: 'Internal server error'}); 
-            })
-    })    
-    .then(() => {
-        return fetchedCart.setProducts(null);
-    })
+    .addOrder()
     .then(() => {
         res.status(200).json({message: 'Ordered successfully!'});
     })

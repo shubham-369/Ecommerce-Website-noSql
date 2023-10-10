@@ -71,6 +71,7 @@ class User{
             console.log('Error while getting cart items', error);
         }
     }
+    
     async deleteCart(id){
         const db = getDB();
         try {
@@ -84,6 +85,38 @@ class User{
             return;
         } catch (error) {
             console.log('Error while deleting cart', error);
+        }
+    }
+    async addOrder(){
+        const db = getDB();
+        try {
+            const products = await this.getCart();
+            const order = {
+                items: products,
+                user: {
+                    _id: new mongodb.ObjectId(this._id),
+                    name: this.name,
+                }
+            }
+            await db.collection('orders').insertOne(order);
+            this.cart = {items: []};
+            await db.collection('users').updateOne(            
+                {_id: new mongodb.ObjectId(this._id)},
+                {$set : {cart: { items: [] }}}
+            );
+            return;
+        } catch (error) {
+            console.log('Error while ordering', error);
+        }
+    }
+
+    async getOrders(){
+        const db = getDB();
+        try {
+            const orders = await db.collection('orders').find({'user._id': new mongodb.ObjectId(this._id)}).toArray();
+            return orders;
+        } catch (error) {
+            console.log('Error while getting orders', error);
         }
     }
 

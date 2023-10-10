@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 
 app.use('/admin', adminRoutes);
 app.use('/shop', shopRoutes);
-// app.use('*', errorRoutes);
+app.use('*', errorRoutes);
 
 
 const port =  process.env.PORT || 4500;
