@@ -27,7 +27,7 @@ exports.contact = (req, res, next) => {
 }
 
 exports.showProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
     .then((data) => {
         res.render('shop/shop', {
             prods: data,

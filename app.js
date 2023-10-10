@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const path = require('path');
 const cors = require('cors');
-const { MongoConnect } = require("./util/database");
+const Mongoose = require('mongoose');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -11,6 +11,7 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const User = require('./models/user');
+const { error } = require('console');
 // const errorRoutes = require('./routes/error');
 
 
@@ -36,6 +37,11 @@ app.use('*', errorRoutes);
 
 const port =  process.env.PORT || 4500;
 
-MongoConnect(() => {
+Mongoose
+.connect(process.env.MONGOLINK)
+.then(() => {
     app.listen(port);
-});
+})
+.catch(error => {
+    console.log('Error while connecting to server', error);
+})

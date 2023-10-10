@@ -3,9 +3,14 @@ const { Product } = require('../models/product');
 exports.addUpdateProducts = (req, res, next) => {
     const { productID, title, url, price, description } = req.body;
     if (productID) {
-        const product = new Product(title, url, price, description, productID, req.user._id);
-        product
-        .save()
+        Product.findById(productID)
+        .then(product => {
+            product.title = title;
+            product.price = price;
+            product.description = description;
+            product.url = url;
+            return product.save();
+        })
         .then(() => {
             res.status(200).json({ message: 'Product updated successfully' });
         })
@@ -14,7 +19,7 @@ exports.addUpdateProducts = (req, res, next) => {
             res.status(500).render('error', { pageTitle: 'Internal Server Error' });
         });
     }else {
-        const product = new Product(title, url, price, description, null, req.user._id);
+        const product = new Product(title, price, description, url);
         product
         .save()
         .then(() => {
@@ -53,7 +58,7 @@ exports.fetchByID = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
         .then(data => {
             res.render('admin/admin-product', {
                 prods: data,
@@ -70,7 +75,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.deleteByID = (req, res, next) => {
     const id = req.query.deleteID;
-    Product.deleteByID(id)
+    Product.findByIdAndRemove(id)
         .then(() => {
             res.status(200).json({message:'Data deleted from database!'});
         })
