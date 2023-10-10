@@ -11,8 +11,7 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const User = require('./models/user');
-const { error } = require('console');
-// const errorRoutes = require('./routes/error');
+const errorRoutes = require('./routes/error');
 
 
 app.use(express.json());
@@ -24,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
     User.findById("65252caa7813ec60d34290c4")
     .then(user => {
-        req.user = new User(user.name, user.email, user.cart, user._id);
+        req.user = user;
         next();
     })
     .catch((error) => console.log(error));
@@ -40,6 +39,19 @@ const port =  process.env.PORT || 4500;
 Mongoose
 .connect(process.env.MONGOLINK)
 .then(() => {
+    User.findOne()
+    .then(user => {
+        if(!user){
+            const user = new User({
+                name: 'shubham',
+                email: 'shubham@gmail.com',
+                cart: {
+                    items:[]
+                }
+            })
+            user.save();
+        }
+    });
     app.listen(port);
 })
 .catch(error => {
