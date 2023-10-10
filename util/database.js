@@ -5,7 +5,7 @@ let _db;
 
 const MongoConnect = async(callback) => {
     try{
-        const client = await MongoClient.connect('mongodb+srv://shubham:Humanity369@cluster0.6gw8hdd.mongodb.net/shop?retryWrites=true&w=majority');
+        const client = await MongoClient.connect(process.env.MONGOLINK);
         console.log('Connected!');
         _db = client.db();
         callback();

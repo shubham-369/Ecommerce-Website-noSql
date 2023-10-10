@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const path = require('path');
@@ -20,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    User.findById("6523f0cb58b95c911bb0abd7")
+    User.findById("65252caa7813ec60d34290c4")
     .then(user => {
         req.user = new User(user.name, user.email, user.cart, user._id);
         next();

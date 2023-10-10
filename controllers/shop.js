@@ -61,20 +61,12 @@ exports.productDetails = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
     req.user.getCart()
-    .then((cart) => {
-        return cart
-        .getProducts()
-        .then((products) => {
-            res.render('shop/cart', {
-                prods: products,
-                pageTitle: 'Cart',
-                path: '/cart'
-            });
-        })
-        .catch((error) => {
-            console.log('error while getting products from the cart :', error);
-            res.status(500).render('error', { pageTitle: 'Internal server error'});
-        })
+    .then((products) => {
+        res.render('shop/cart', {
+            prods: products,
+            pageTitle: 'Cart',
+            path: '/cart'
+        });
     })
     .catch((error) => {
         console.log('error while fetching product details :', error);
@@ -91,35 +83,8 @@ exports.addCart = (req, res, next) => {
     })
     .then((result) => {
         console.log(result);
+        res.redirect('/shop/cart');
     })
-
-    // let fetchedCart;
-    // let newQuantity = 1;
-
-    // req.user
-    // .getCart()
-    // .then((cart) => {
-    //     fetchedCart = cart;
-    //     return cart.getProducts({where:{id:product}})
-    // })
-    // .then((products) => {
-    //     let prod;
-    //     if(products.length > 0){
-    //         prod = products[0];
-    //     }
-    //     if(prod){
-    //         const oldQuantity = prod.cartItems.quantity;
-    //         newQuantity = oldQuantity + 1;
-    //         return prod
-    //     }
-    //     return Product.findByPk(product)
-    // })
-    // .then((fproduct) => {
-    //     res.status(200).json({message:'product added successfully to cart'});
-    //     return fetchedCart.addProduct(fproduct, { 
-    //         through: { quantity : newQuantity } 
-    //     });
-    // })
     .catch((error) => {
         console.log('error while adding product to cart : ', error);
         res.status(500).json({ message: 'Internal server error'});   
@@ -129,14 +94,7 @@ exports.addCart = (req, res, next) => {
 exports.deleteCart = (req, res, next) => {
     const delID = req.query.id;
     req.user
-    .getCart()
-    .then((cart) => {
-        return cart.getProducts({where:{id:delID}});
-    })
-    .then((products) => {
-        const product = products[0];
-        return product.cartItems.destroy();
-    })
+    .deleteCart(delID)
     .then(() => {
         res.status(200).json({message:'product deleted from the cart'});
     })
