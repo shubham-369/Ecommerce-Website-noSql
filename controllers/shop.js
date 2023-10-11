@@ -97,7 +97,7 @@ exports.addCart = (req, res, next) => {
 exports.deleteCart = (req, res, next) => {
     const delID = req.query.id;
     req.user
-    .deleteCart(delID)
+    .removeFromCart(delID)
     .then(() => {
         res.status(200).json({message:'product deleted from the cart'});
     })
