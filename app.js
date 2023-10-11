@@ -15,7 +15,7 @@ const shopRoutes = require('./routes/shop');
 const errorRoutes = require('./routes/error');
 
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'views')));
