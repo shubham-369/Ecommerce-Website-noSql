@@ -1,5 +1,5 @@
-const Mongoose = require('mongoose');
-const Schema = Mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     title: {
@@ -17,8 +17,13 @@ const ProductSchema = new Schema({
     url: {
         type: String,
         required: true
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
 
-module.exports = Mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', ProductSchema);

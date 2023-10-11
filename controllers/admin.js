@@ -1,4 +1,4 @@
-const { Product } = require('../models/product');
+const Product = require('../models/product');
 
 exports.addUpdateProducts = (req, res, next) => {
     const { productID, title, url, price, description } = req.body;
@@ -19,7 +19,13 @@ exports.addUpdateProducts = (req, res, next) => {
             res.status(500).render('error', { pageTitle: 'Internal Server Error' });
         });
     }else {
-        const product = new Product(title, price, description, url);
+        const product = new Product({
+            title: title,
+            price: price, 
+            description: description, 
+            url: url, 
+            userId: req.user
+        });
         product
         .save()
         .then(() => {
@@ -59,17 +65,17 @@ exports.fetchByID = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
     Product.find()
-        .then(data => {
-            res.render('admin/admin-product', {
-                prods: data,
-                pageTitle: 'Admin Product',
-                path: '/admin-product'
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching products:', error);
-            res.status(500).json({ message: 'Internal Server Error' });
+    .then(data => {
+        res.render('admin/admin-product', {
+            prods: data,
+            pageTitle: 'Admin Product',
+            path: '/admin-product'
         });
+    })
+    .catch(error => {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    });
 };
 
 

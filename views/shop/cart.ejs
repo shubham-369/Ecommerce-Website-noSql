@@ -15,10 +15,10 @@
        <% prods.forEach(element => { console.log(element);%>
          <div class="card bg-light my-5" style="max-width: 100%; max-height: 15rem;">
            <div class="card-body float-right">
-             <h5 class="card-title"><%= element.title %></h5>
+             <h5 class="card-title"><%= element.productId.title %></h5>
              <h3 class="card-text font-weight-bold">Quantity : <%= element.quantity %></h3>
              <div class="d-flex justify-content-end">
-               <button data-id="<%= element._id %>" class="deleteCartItem btn btn-danger">Delete</button>
+               <button data-id="<%= element.productId._id %>" class="deleteCartItem btn btn-danger">Delete</button>
              </div>
            </div>
          </div>
