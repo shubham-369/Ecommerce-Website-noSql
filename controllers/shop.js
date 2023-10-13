@@ -62,7 +62,6 @@ exports.productDetails = (req, res, next) => {
 exports.getCart = (req, res, next) => {
     req.user
     .populate('cart.items.productId')
-    .execPopulate()
     .then((user) => {
         const products = user.cart.items;
         res.render('shop/cart', {
@@ -85,7 +84,6 @@ exports.addCart = (req, res, next) => {
         return req.user.addToCart(product)
     })
     .then((result) => {
-        console.log(result);
         res.redirect('/shop/cart');
     })
     .catch((error) => {
@@ -110,7 +108,6 @@ exports.deleteCart = (req, res, next) => {
 exports.postOrder = (req, res, next) => {
     req.user
     .populate('cart.items.productId')
-    .execPopulate()
     .then((user) => {
         const products = user.cart.items.map((item) => {
             return { quantity: item.quantity, product: {...item.productId._doc } };
@@ -121,11 +118,11 @@ exports.postOrder = (req, res, next) => {
                 userId: req.user
             },
             products: products
-        })
+        });
         return order.save();
     })
     .then(() => {
-        return req.use.clearCart();
+        return req.user.clearCart();
     })
     .then(() => {
         res.status(200).json({message: 'Ordered successfully!'});

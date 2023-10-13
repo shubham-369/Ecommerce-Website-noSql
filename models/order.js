@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
     products: [
         {
-            products: { type: Object, required: true },
+            product: { type: Object, required: true },
             quantity: { type: Number, required: true },
         }
     ],
@@ -14,4 +14,4 @@ const OrderSchema = new Schema({
     }
 });
 
-exports.module = mongoose.model('Order', OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema);
