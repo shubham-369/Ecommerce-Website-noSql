@@ -1,9 +1,9 @@
 const Product = require('../models/product');
 
 exports.addUpdateProducts = (req, res, next) => {
-    const { productID, title, url, price, description } = req.body;
-    if (productID) {
-        Product.findById(productID)
+    const { _id, title, url, price, description } = req.body;
+    if (_id) {
+        Product.findById(_id)
         .then(product => {
             product.title = title;
             product.price = price;

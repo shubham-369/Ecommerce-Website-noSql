@@ -57,7 +57,7 @@ if (cartBtns){
       
           const id = e.target.getAttribute('data-id');
           try{
-              const response = await axios.post('/shop/cart', { product: id });
+              const response = await axios.post('/shop/cart', { productID: id });
               console.log('product added to cart', response.data);
       
               window.location.href= '/shop/cart';

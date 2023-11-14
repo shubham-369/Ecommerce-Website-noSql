@@ -77,9 +77,9 @@ exports.getCart = (req, res, next) => {
 }
 
 exports.addCart = (req, res, next) => {
-    const {product} = req.body;
+    const {productID} = req.body;
 
-    Product.findById(product)
+    Product.findById(productID)
     .then((product) => {
         return req.user.addToCart(product)
     })
